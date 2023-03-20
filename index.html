@@ -10,20 +10,43 @@
 </head>
 <header>
    
-        <h2 class="score" id="#score">View High Score</h2>
+        <h2 class="highscore" id="highscore">View High Score</h2>
         <h1>Coding Quiz Challenge</h1>
-        <h3>Timmer :<span id="#time"> 0</span> </h3>
+        <h3>Timer :<span id="timer">75</span> </h3>
     
 </header>
 <body>
-   <section class="quiz" id="#quiz">  
-            <p>Try to answer following code related questions with in the time limit.</br>
+    <!--Main Page-->
+        <section class="start-page" id="start-page">  
+            <p id="quizinfo">Try to answer following code related questions with in the time limit.</br>
             Keep in mind that incorrect answers will penelize your score time.</br>
              by TEN SECONDS!!!!
             </p>
-         <button class="btn" id="#start-quiz">START QUIZ</button>
-    </section>
+            <div class="quizContainer" id = "quizContainer">    
+                <div class="questionContainer" id="quiz">
+                    <p class="question" id="question"></p>
+                    <button class="options" id="option1"></button><br/>
+                    <button class="options" id="option2"></button><br/>
+                    <button class="options" id="option3"></button><br/>
+                    <button class="options" id="option4"></button>
+                </div>
+                <div class="answer" id="answer">
+                    <p class ="verify">Answer is :<span id="verify"></span></p>
+                </div>
+            </div>
+
+
+
+         <button class="btn" id="start-quiz">START QUIZ</button>
+        </section>
     
+        <form id="submitContainer">
+            <h4>All Done!!</h4>
+            <p class="finalscore">Your Final Score Is :<span id="finalscore"></span></p>
+            <label for="initial">Enter Your Initials</label>
+            <input type="text" id="initial" name = "name" required  />
+            <button class="btn" id="submit-form">SUBMIT</button>
+        </form>
     <script src="./assets/script.js"></script>
 </body>
 </html>
