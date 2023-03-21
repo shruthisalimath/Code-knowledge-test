@@ -35,7 +35,7 @@ var questionList = [
         "opt2" : "2. Curly brackets",
         "opt3" : "3. Quotes",
         "opt4" : "4. Parenthesis",
-        "correct" : "3"
+        "Correct" : "3"
      },
      {
         "id" : 5,
@@ -47,17 +47,22 @@ var questionList = [
         "Correct" : "4"
      }  
 ];
-var startPage = document.getElementById("start-page");
+var bodyEl = document.body;
+var startPageEl = document.getElementById("start-page");
+var mainEl = document.querySelector(".main");
 var startQuizBtn = document.getElementById("start-quiz");
 var timerElement = document.getElementById("timer");
 var quizInfoElement = document.getElementById("quizinfo");
 var answerVerifyEl = document.getElementById("verify");
 var quizContainerEl = document.getElementById("quizContainer");
 var submitContainerEl = document.getElementById("submitContainer");
+var submitFormBtn = document.getElementById("submit-form");
+var inputEl = document.getElementById("initial");
+
 var finalscoreEl = document.getElementById("finalscore");
 var highscoreBtnEl = document.getElementById("highscore");
-//quizContainerEl.style.display = none;
-//submitContainerEl.style.display = none;
+var gobackButtonEl = document.createElement("button");
+var clearButtonEl = document.createElement("button");
 
 var score;
 var highScore;
@@ -70,17 +75,15 @@ var timerCount;
 var penalty =10;
 
 startQuizBtn.addEventListener("click", startQuiz);
-
-
+highscoreBtnEl.addEventListener("click", viewHighScore);
 
 function startQuiz() {
     timerCount = 75;
-    startQuizBtn.hidden = true;
-    quizInfoElement.hidden = true;
-    score = 0;
     
-    loadNextQuestion();
-    
+    mainEl.parentNode.removeChild(mainEl);
+    startPageEl.appendChild(quizContainerEl);
+    loadNextQuestion(); 
+    score = 0;  
     startTimer();
 }
 
@@ -90,7 +93,7 @@ function startTimer() {
       timerCount--;
       timerElement.textContent = timerCount;
       if (timerCount >= 0) {
-        // Tests if win condition is met
+        // Tests if  condition is met
         if (isAllDone && timerCount > 0) {
           // Clears interval and stops timer
           clearInterval(timer);
@@ -101,16 +104,14 @@ function startTimer() {
       if (timerCount === 0) {
         // Clears interval
         clearInterval(timer);
-        gameOver();
+        allDone();
       }
     }, 1000);
   }
 
   function allDone() {
-    alert("ALL DONE ANSWERING");
-  }
-  function gameOver() {
-    alert("GAME OVER");
+    quizContainerEl.parentNode.removeChild(quizContainerEl);
+    startPageEl.appendChild(submitContainerEl);
   }
 
 //function to create list of questions
@@ -128,22 +129,21 @@ option2El.addEventListener("click", choiceMade2);
 option3El.addEventListener("click", choiceMade3);
 option4El.addEventListener("click", choiceMade4);
 
-highscoreBtnEl.addEventListener("click", viewHighScore);
 
-function viewHighScore() {
 
-}
 
 function choiceMade1() {
     if(1 == questionList[currentQuestion].Correct) {
         
         answerVerifyEl.textContent = "Correct!";
         score += 20;
+        
     } else {
         
         answerVerifyEl.textContent = "Wrong!";
         penaliseTime();
     }
+    //answerVerifyEl.removechild(answerVerifyEl);
     loadNextQuestion();
 }
 
@@ -175,7 +175,7 @@ function choiceMade3() {
 
 function choiceMade4() {
     if(4 == questionList[currentQuestion].Correct) {
-        
+        answerVerifyEl.textContent = "Correct!";
         score += 20;
     } else {
         
@@ -208,12 +208,83 @@ function loadNextQuestion(){
             highScore = score;
         }
         //Handle the final score details.
-        submitContainerEl.style.display = block;
-        quizContainerEl.style.display = none;
+        // submitContainerEl.style.display = false;
+        // quizContainerEl.style.display = none;
     }
     
 };
 
+
+submitFormBtn.addEventListener("click",function(event) {
+event.preventDefault();
+var initialInput = inputEl.value;
+if( initialInput === null){
+    alert("no value entered!");
+}else{
+    var finalScore = {
+        initialInput : initialInput,
+        score : score,
+    };
+    //localStorage.setItem("score", score);
+    var allScores = localStorage.getItem("allScores");
+      if (allScores === null) {
+        allScores = [];
+      } else {
+        allScores = JSON.parse(allScores);
+      }
+      allScores.push(finalScore);
+      var newScore = JSON.stringify(allScores);
+      localStorage.setItem("allScores", newScore);
+      //viewHighScore();
+    }
+  });
+
+  /*gobackButtonEl.textContent = "Go Back";
+  gobackButtonEl.className = "btn hscores-gobtn";       
+  
+      //create clear high scores button
+  clearButtonEl.textContent = "Clear high scores";
+  clearButtonEl.className = "btn hscores-clbtn";*/
+
+
+
+function viewHighScore() {
+    alert("Inside view highSCore");
+    clearButtonEl.textContent = "Clear high scores";
+    clearButtonEl.addEventListener("click", function(){
+    localStorage.clear();
+    });
+    var allScores = localStorage.getItem("allScores");
+    allScores = JSON.parse(allScores);
+
+    if (allScores !== null) {
+        for (var i = 0; i < allScores.length; i++) {
+            var createLi = document.createElement("li");
+            createLi.textContent = allScores[i].initials + " " + allScores[i].score;
+            highScore.appendChild(createLi);
+        }
+    }
+    startPageEl.removeChild(submitContainerEl);
+    startPageEl.removeChild(mainEl);
+    startPageEl.removeChild(quizContainerEl);
+    startPageEl.appendChild
+    gobackButtonEl.textContent = "Go Back";
+    gobackButtonEl.addEventListener("click", function () {
+    //window.location.replace("index.html");
+});
+}
+/*function viewHighScore() {
+    inputEl = localStorage.getItem("initial");
+    finalscoreEl = localStorage.getItem("finalscore");
+    if(!inputEl || !finalscoreEl){
+        return;
+    }
+
+}
+inputEl.setAttribute("id", "initial");*/
+
+quizContainerEl.parentNode.removeChild(quizContainerEl);
+submitContainerEl.parentNode.removeChild(submitContainerEl);
 
 
 

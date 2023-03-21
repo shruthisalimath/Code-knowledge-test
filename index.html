@@ -9,37 +9,39 @@
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
 </head>
 <header>
-   
-        <h2 class="highscore" id="highscore">View High Score</h2>
+    <h2> <button class="highscore"  id="highscore"> View High Score </button> </h2>
+        <!----<button class="highscore"  id="highscore"><h2>View High Score</h2></button>--->
         <h1>Coding Quiz Challenge</h1>
         <h3>Timer :<span id="timer">75</span> </h3>
-    
+     
 </header>
 <body>
     <!--Main Page-->
-        <section class="start-page" id="start-page">  
-            <p id="quizinfo">Try to answer following code related questions with in the time limit.</br>
-            Keep in mind that incorrect answers will penelize your score time.</br>
-             by TEN SECONDS!!!!
-            </p>
-            <div class="quizContainer" id = "quizContainer">    
-                <div class="questionContainer" id="quiz">
-                    <p class="question" id="question"></p>
-                    <button class="options" id="option1"></button><br/>
-                    <button class="options" id="option2"></button><br/>
-                    <button class="options" id="option3"></button><br/>
-                    <button class="options" id="option4"></button>
-                </div>
-                <div class="answer" id="answer">
-                    <p class ="verify">Answer is :<span id="verify"></span></p>
-                </div>
-            </div>
-
-
-
-         <button class="btn" id="start-quiz">START QUIZ</button>
-        </section>
     
+        <div class="start-page" id="start-page">  
+            <div class="main">
+                <p id="quizinfo">Try to answer following code related questions with in the time limit.</br>
+                Keep in mind that incorrect answers will penelize your score time.</br>
+                by TEN SECONDS!!!!
+                </p>
+                <button class="btn" id="start-quiz">START QUIZ</button>
+            </div>
+        </div>
+    
+
+        <div class="quizContainer" id = "quizContainer">    
+            <div class="questionContainer" id="quiz">
+                <p class="question" id="question"></p>
+                <button class="options" id="option1"></button><br/>
+                <button class="options" id="option2"></button><br/>
+                <button class="options" id="option3"></button><br/>
+                <button class="options" id="option4"></button>
+            </div>
+            <div class="answer" id="answer">
+                <p class ="verify">Answer is :<span id="verify"></span></p>
+            </div>
+        </div>
+
         <form id="submitContainer">
             <h4>All Done!!</h4>
             <p class="finalscore">Your Final Score Is :<span id="finalscore"></span></p>
