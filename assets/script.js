@@ -222,7 +222,7 @@ if( initialInput === null ){
         initialInput : initialInput,
         score : score,
     };
-    //localStorage.setItem("score", score);
+    
     var allScores = localStorage.getItem("allScores");
       if (allScores === null) {
         allScores = [];
@@ -236,12 +236,14 @@ if( initialInput === null ){
     }
   });
 
-highScoreBtnEl.addEventListener("click", viewHighScore);
+//when view high score button is clicked
+  highScoreBtnEl.addEventListener("click", homePageHighScoreButton);
  
 
 function viewHighScore() {
     alert("Inside view highSCore");
-    loadHighScoresEl.className = "loasScores";
+        
+    loadHighScoresEl.className = "loadScores";
     loadHighScoresEl.innerHTML = "<h1 class='high'>High Scores</h1>";
 
     oLiEl=document.createElement("ol");
@@ -275,34 +277,69 @@ function viewHighScore() {
         clearButtonEl.disabled=false;
     }
     
-    //startPageEl.removeChild(submitContainerEl);
-   // startPageEl.removeChild(mainEl);
-   // startPageEl.removeChild(quizContainerEl);
+   
+    startPageEl.removeChild(submitContainerEl);
     startPageEl.appendChild(loadHighScoresEl);
     loadHighScoresEl.appendChild(gobackButtonEl);
     loadHighScoresEl.appendChild(clearButtonEl);
+    highScoreBtnEl.disabled = true;
+
 };
-
-gobackButtonEl.addEventListener("click",function(event){
-    startPageEl.removeChild(loadHighScoresEl);
-    startPageEl.appendChild(mainEl);
-
-   // startQuiz();
-   
-});
-
-clearButtonEl.addEventListener("click",function(event){
-    localStorage.clear();
-   // score.splice(0,score.length);
-    alert("Cleared High Scores");
-    clearButtonEl.disabled=true;
-    viewHighScore(false);
-});
+        //when go back button is clicked
+    gobackButtonEl.addEventListener("click",function(event)
+    {
+        location.reload();
+    });
+ //When clear button is clicked 
+    clearButtonEl.addEventListener("click",function(event)
+    {
+        localStorage.clear();
+        alert("Cleared High Scores");
+        clearButtonEl.disabled=true;
+        viewHighScore(false);
+    });
 
 
 quizContainerEl.parentNode.removeChild(quizContainerEl);
 submitContainerEl.parentNode.removeChild(submitContainerEl);
 
+function homePageHighScoreButton() {
+    loadHighScoresEl.className = "loadScores";
+       loadHighScoresEl.innerHTML = "<h1 class='high'>High Scores</h1>";
+       oLiEl=document.createElement("ol");
+       oLiEl.setAttribute("id","ollist");
+       loadHighScoresEl.appendChild(oLiEl);
+           //create a li element and show scores from local storage
+       var allScores = localStorage.getItem("allScores");
+       allScores = JSON.parse(allScores);
+       if (allScores !== null) {
+           for (var i = 0; i < allScores.length; i++) {
+               var createLi = document.createElement("li");
+               createLi.id = "listItem";
+               createLi.textContent = allScores[i].initialInput + " - " + allScores[i].score;
+               oLiEl.appendChild(createLi);
+           }
+       }
+       //create go back button
+        gobackButtonEl.textContent = "Go Back";
+        gobackButtonEl.className ="go-back-btn";
+       
+       //create clear high score button
+       clearButtonEl.textContent = "Clear high scores";
+       clearButtonEl.className ="clear-score-btn";
+       if(allScores === null){
+           clearButtonEl.disabled=true;
+       }
+       else{
+           clearButtonEl.disabled=false;
+       }
+       
+      startPageEl.removeChild(mainEl);
+   
+       startPageEl.appendChild(loadHighScoresEl);
+       loadHighScoresEl.appendChild(gobackButtonEl);
+       loadHighScoresEl.appendChild(clearButtonEl);
+   };
 
 
 
