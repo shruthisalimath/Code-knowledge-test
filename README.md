@@ -30,3 +30,7 @@ The following animation demonstrates the application functionality:
 
 ![CODE-QUIZ](./assets/images/04-web-apis-homework-demo.gif)
 
+## Screen Shot 
+![CODE-KNOWLEDGE-QUIZ](assets/images/screenShot-codeTest.png)
+
+
