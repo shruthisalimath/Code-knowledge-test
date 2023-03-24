@@ -64,10 +64,11 @@ var highScoreBtnEl = document.getElementById("highscore");
 var gobackButtonEl = document.createElement("button");
 var clearButtonEl = document.createElement("button");
 var oLiEl;
-var score;
-var highScore;
+var score ;
 var currentQuestion;
 var isAllDone = false;
+//var highscore = 0;
+var viewscoreEl =document.getElementById("viewscore");
 
 //timer set
 
@@ -203,18 +204,17 @@ function loadNextQuestion(){
         //all done
         isAllDone = true;
         finalscoreEl.textContent = score;
-        if(score > highScore) {
-            highScore = score;
-        }
         
     }
     
 };
 
+
 //submit form event with scores and initial
 submitFormBtn.addEventListener("click",function(event) {
 event.preventDefault();
 var initialInput = inputEl.value;
+
 if( initialInput === null ){
     alert("no value entered!");
 }else{
@@ -232,15 +232,15 @@ if( initialInput === null ){
       allScores.push(finalScore);
       var newScore = JSON.stringify(allScores);
       localStorage.setItem("allScores", newScore);
-      viewHighScore();
+      loadViewHighScore();
+      alert("submit-done");
     }
   });
 
-//when view high score button is clicked
-  highScoreBtnEl.addEventListener("click", homePageHighScoreButton);
- 
 
-function viewHighScore() {
+  
+// load high score
+function loadViewHighScore() {
     alert("Inside view highSCore");
         
     loadHighScoresEl.className = "loadScores";
@@ -277,15 +277,36 @@ function viewHighScore() {
         clearButtonEl.disabled=false;
     }
     
-   
-    startPageEl.removeChild(submitContainerEl);
+    submitContainerEl.hidden = true;
+    //startPageEl.removeChild(submitContainerEl);
     startPageEl.appendChild(loadHighScoresEl);
     loadHighScoresEl.appendChild(gobackButtonEl);
     loadHighScoresEl.appendChild(clearButtonEl);
-    highScoreBtnEl.disabled = true;
+    //highScoreBtnEl.disabled = true;
 
 };
-        //when go back button is clicked
+
+//when view high score button is clicked
+
+highScoreBtnEl.addEventListener("click", viewHighScore);
+function viewHighScore() {
+    if(startPageEl.contains(mainEl)){
+        alert("yes-main");
+        mainEl.parentNode.removeChild(mainEl);
+    }
+    else if(startPageEl.contains(quizContainerEl)) {
+        alert("yes-quiz");
+        quizContainerEl.parentNode.removeChild(quizContainerEl);
+    }
+    else if(startPageEl.contains(submitContainerEl)) {
+        alert("yes-submitEl"); 
+        submitContainerEl.parentNode.removeChild(submitContainerEl);
+    }
+    loadViewHighScore();
+
+};  
+
+//when go back button is clicked
     gobackButtonEl.addEventListener("click",function(event)
     {
         location.reload();
@@ -303,43 +324,7 @@ function viewHighScore() {
 quizContainerEl.parentNode.removeChild(quizContainerEl);
 submitContainerEl.parentNode.removeChild(submitContainerEl);
 
-function homePageHighScoreButton() {
-    loadHighScoresEl.className = "loadScores";
-       loadHighScoresEl.innerHTML = "<h1 class='high'>High Scores</h1>";
-       oLiEl=document.createElement("ol");
-       oLiEl.setAttribute("id","ollist");
-       loadHighScoresEl.appendChild(oLiEl);
-           //create a li element and show scores from local storage
-       var allScores = localStorage.getItem("allScores");
-       allScores = JSON.parse(allScores);
-       if (allScores !== null) {
-           for (var i = 0; i < allScores.length; i++) {
-               var createLi = document.createElement("li");
-               createLi.id = "listItem";
-               createLi.textContent = allScores[i].initialInput + " - " + allScores[i].score;
-               oLiEl.appendChild(createLi);
-           }
-       }
-       //create go back button
-        gobackButtonEl.textContent = "Go Back";
-        gobackButtonEl.className ="go-back-btn";
-       
-       //create clear high score button
-       clearButtonEl.textContent = "Clear high scores";
-       clearButtonEl.className ="clear-score-btn";
-       if(allScores === null){
-           clearButtonEl.disabled=true;
-       }
-       else{
-           clearButtonEl.disabled=false;
-       }
-       
-      startPageEl.removeChild(mainEl);
-   
-       startPageEl.appendChild(loadHighScoresEl);
-       loadHighScoresEl.appendChild(gobackButtonEl);
-       loadHighScoresEl.appendChild(clearButtonEl);
-   };
+
 
 
 
