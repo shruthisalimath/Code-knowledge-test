@@ -47,7 +47,7 @@ var questionList = [
         "Correct" : "4"
      }  
 ];
-
+//identify all the elements in applications
 var startPageEl = document.getElementById("start-page");
 var mainEl = document.querySelector(".main");
 var startQuizBtn = document.getElementById("start-quiz");
@@ -63,58 +63,66 @@ var finalscoreEl = document.getElementById("finalscore");
 var highScoreBtnEl = document.getElementById("highscore");
 var gobackButtonEl = document.createElement("button");
 var clearButtonEl = document.createElement("button");
+var viewscoreEl =document.getElementById("viewscore");
 var oLiEl;
 var score ;
 var currentQuestion;
 var isAllDone = false;
-//var highscore = 0;
-var viewscoreEl =document.getElementById("viewscore");
+
+
 
 //timer set
 
 var timerCount;
 var penalty =10;
 
+//starts quiz //event listner -click
 startQuizBtn.addEventListener("click", startQuiz);
 
-function startQuiz() {
+function startQuiz() 
+{
     timerCount = 75;
-    
     mainEl.parentNode.removeChild(mainEl);
     startPageEl.appendChild(quizContainerEl);
     loadNextQuestion(); 
     score = 0;  
     startTimer();
 }
-
-function startTimer() {
+//tracking timer
+function startTimer()
+ {
     // Sets timer
-    timer = setInterval(function() {
+    timer = setInterval(function() 
+    {
       timerCount--;
       timerElement.textContent = timerCount;
-      if (timerCount >= 0) {
+      if (timerCount >= 0) 
+      {
         // Tests if  condition is met
-        if (isAllDone && timerCount > 0) {
+        if (isAllDone && timerCount > 0)
+        {
           // Clears interval and stops timer
           clearInterval(timer);
           allDone() //winGame();
         }
       }
       // Tests if time has run out
-      if (timerCount === 0) {
+       if (timerCount === 0) 
+        {
         // Clears interval
         clearInterval(timer);
         allDone();
-      }
+        }
     }, 1000);
   }
-
-  function allDone() {
+// shows result when all questions are done
+  function allDone() 
+  {
     quizContainerEl.parentNode.removeChild(quizContainerEl);
     startPageEl.appendChild(submitContainerEl);
   }
 
-//function to create list of questions
+// create list of questions with options to answer with their unique ID
 var questionDiv = document.getElementById("question");
 var option1El = document.getElementById("option1");
 var option2El = document.getElementById("option2");
@@ -123,7 +131,7 @@ var option4El = document.getElementById("option4");
 var questionNum = document.getElementById("id");
 
 
-
+//event listners (click) for choosing answers
 option1El.addEventListener("click", choiceMade1);
 option2El.addEventListener("click", choiceMade2);
 option3El.addEventListener("click", choiceMade3);
@@ -131,68 +139,79 @@ option4El.addEventListener("click", choiceMade4);
 
 
 
-
-function choiceMade1() {
-    if(1 == questionList[currentQuestion].Correct) {
-        
+//compare answers and returns if its correct! or wrong!
+function choiceMade1()
+ {
+    if(1 == questionList[currentQuestion].Correct)
+     {
         answerVerifyEl.textContent = "Correct!";
-        score += 20;
-        
-    } else {
-        
-        answerVerifyEl.textContent = "Wrong!";
-        penaliseTime();
-    }
-    //answerVerifyEl.removechild(answerVerifyEl);
-    loadNextQuestion();
-}
-
-function choiceMade2() {
-    if(2 == questionList[currentQuestion].Correct) {
-        
-        answerVerifyEl.textContent = "Correct!";
-        score += 20;
-    } else {
-        
+        score += 20; 
+    } 
+    else 
+    {
         answerVerifyEl.textContent = "Wrong!";
         penaliseTime();
     }
     loadNextQuestion();
 }
 
-function choiceMade3() {
-    if(3 == questionList[currentQuestion].Correct) {
-        
+function choiceMade2()
+ {
+    if(2 == questionList[currentQuestion].Correct) 
+    {
         answerVerifyEl.textContent = "Correct!";
         score += 20;
-    } else {
-        
+    } 
+    else 
+    {
         answerVerifyEl.textContent = "Wrong!";
         penaliseTime();
     }
     loadNextQuestion();
 }
 
-function choiceMade4() {
-    if(4 == questionList[currentQuestion].Correct) {
+function choiceMade3() 
+{
+    if(3 == questionList[currentQuestion].Correct) 
+    { 
         answerVerifyEl.textContent = "Correct!";
         score += 20;
-    } else {
-        
+    } 
+    else 
+    {
         answerVerifyEl.textContent = "Wrong!";
         penaliseTime();
     }
     loadNextQuestion();
 }
 
-function penaliseTime() {
+function choiceMade4() 
+{
+    if(4 == questionList[currentQuestion].Correct)
+    {
+        answerVerifyEl.textContent = "Correct!";
+        score += 20;
+    } 
+    else 
+    {
+        answerVerifyEl.textContent = "Wrong!";
+        penaliseTime();
+    }
+    loadNextQuestion();
+}
+//when answerd wron deducts 10 secs from timer
+function penaliseTime() 
+{
     timerCount = timerCount - penalty;
 }
 
 //counter to keep track of questions 
 var count = 0;
-function loadNextQuestion(){
-    if(count <=4) {
+//loads question 
+function loadNextQuestion()
+{
+    if(count <=4)
+     {
         questionDiv.textContent = questionList[count].Question;
         option1El.textContent = questionList[count].opt1;
         option2El.textContent = questionList[count].opt2;
@@ -200,7 +219,9 @@ function loadNextQuestion(){
         option4El.textContent = questionList[count].opt4;
         currentQuestion = count;
         count++;
-    } else {
+    } 
+    else 
+    {
         //all done
         isAllDone = true;
         finalscoreEl.textContent = score;
@@ -210,41 +231,47 @@ function loadNextQuestion(){
 };
 
 
-//submit form event with scores and initial
+//submit form event with scores and initial and stores in local storage
 submitFormBtn.addEventListener("click",function(event) {
 event.preventDefault();
 var initialInput = inputEl.value;
 
-if( initialInput === null ){
+if( initialInput === null )
+{
     alert("no value entered!");
-}else{
-    var finalScore = {
-        initialInput : initialInput,
-        score : score,
-    };
+}
+else
+{
+        var finalScore = 
+        {
+            initialInput : initialInput,
+            score : score,
+        };
     
     var allScores = localStorage.getItem("allScores");
-      if (allScores === null) {
+      if (allScores === null) 
+      {
         allScores = [];
-      } else {
+      } 
+      else 
+      {
         allScores = JSON.parse(allScores);
       }
       allScores.push(finalScore);
       var newScore = JSON.stringify(allScores);
       localStorage.setItem("allScores", newScore);
       loadViewHighScore();
-      alert("submit-done");
     }
   });
 
 
   
-// load high score
-function loadViewHighScore() {
-    alert("Inside view highSCore");
+// loads high score by creating list of initials with high score
+function loadViewHighScore() 
+{
         
     loadHighScoresEl.className = "loadScores";
-    loadHighScoresEl.innerHTML = "<h1 class='high'>High Scores</h1>";
+    loadHighScoresEl.innerHTML = "<h4 class='high'>High Scores</h4>";
 
     oLiEl=document.createElement("ol");
     oLiEl.setAttribute("id","ollist");
@@ -253,8 +280,10 @@ function loadViewHighScore() {
     var allScores = localStorage.getItem("allScores");
     allScores = JSON.parse(allScores);
 
-    if (allScores !== null) {
-        for (var i = 0; i < allScores.length; i++) {
+    if (allScores !== null)
+    {
+        for (var i = 0; i < allScores.length; i++) 
+        {
             var createLi = document.createElement("li");
             createLi.id = "listItem";
             createLi.textContent = allScores[i].initialInput + " - " + allScores[i].score;
@@ -270,48 +299,48 @@ function loadViewHighScore() {
     clearButtonEl.textContent = "Clear high scores";
     clearButtonEl.className ="clear-score-btn";
 
-    if(allScores === null){
+    if(allScores === null)
+    {
         clearButtonEl.disabled=true;
     }
-    else{
+    else
+    {
         clearButtonEl.disabled=false;
     }
     
     submitContainerEl.hidden = true;
-    //startPageEl.removeChild(submitContainerEl);
     startPageEl.appendChild(loadHighScoresEl);
     loadHighScoresEl.appendChild(gobackButtonEl);
     loadHighScoresEl.appendChild(clearButtonEl);
-    //highScoreBtnEl.disabled = true;
-
+    
 };
 
-//when view high score button is clicked
+//when view high score button is clicked checked and displays only high score page
 
 highScoreBtnEl.addEventListener("click", viewHighScore);
 function viewHighScore() {
-    if(startPageEl.contains(mainEl)){
-        alert("yes-main");
+    if(startPageEl.contains(mainEl))
+    {
         mainEl.parentNode.removeChild(mainEl);
     }
-    else if(startPageEl.contains(quizContainerEl)) {
-        alert("yes-quiz");
+    else if(startPageEl.contains(quizContainerEl))
+    {
         quizContainerEl.parentNode.removeChild(quizContainerEl);
     }
-    else if(startPageEl.contains(submitContainerEl)) {
-        alert("yes-submitEl"); 
+    else if(startPageEl.contains(submitContainerEl))
+    {
         submitContainerEl.parentNode.removeChild(submitContainerEl);
     }
     loadViewHighScore();
 
 };  
 
-//when go back button is clicked
+//when go back button is clicked page reloads to home page
     gobackButtonEl.addEventListener("click",function(event)
     {
         location.reload();
     });
- //When clear button is clicked 
+ //When clear button is clicked ,it clears all the initials and score in highscorepage and local storage
     clearButtonEl.addEventListener("click",function(event)
     {
         localStorage.clear();
