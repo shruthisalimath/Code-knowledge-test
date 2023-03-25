@@ -51,3 +51,13 @@ The following animation demonstrates the application functionality:
 14. When clicked on the ClearHighScore button it clears all the list of initials and scores in the Highscore page and also clears in localstorage.
 15. there is a View High Score button on the left end of the home page when it is clicked anytime it loads HighScore page.
 16. Finally deployed the application.
+
+## URL 
+1.The URL of the deployed application:
+
+https://shruthisalimath.github.io/Code-knowledge-test/
+
+
+2.The URL of the GitHub repository:
+
+https://github.com/shruthisalimath/Code-knowledge-test
